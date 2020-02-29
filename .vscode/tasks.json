@@ -1,0 +1,110 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "api_build",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/example/kiwiho.EFcore.MultiTenant.Example.Api/kiwiho.EFcore.MultiTenant.Example.Api.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile",
+            // "dependsOn": [
+            //     "core_build",
+            //     "example_dal_build"
+            // ]
+        },
+        {
+            "label": "api_publish",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "publish",
+                "${workspaceFolder}/example/kiwiho.EFcore.MultiTenant.Example.Api/kiwiho.EFcore.MultiTenant.Example.Api.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile",
+            "dependsOn": [
+                "core_build",
+                "example_dal_build"
+            ]
+        },
+        {
+            "label": "api_watch",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "watch",
+                "run",
+                "${workspaceFolder}/example/kiwiho.EFcore.MultiTenant.Example.Api/kiwiho.EFcore.MultiTenant.Example.Api.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile",
+            "dependsOn": [
+                "core_build",
+                "example_dal_build"
+            ]
+        },
+        {
+            "label": "example_dal_build",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/example/kiwiho.EFcore.MultiTenant.Example.DAL/kiwiho.EFcore.MultiTenant.Example.DAL.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "dependsOn": [
+                "dal_build",
+                "model_build"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "core_build",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/src/kiwiho.EFcore.MultiTenant.Core/kiwiho.EFcore.MultiTenant.Core.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "dependsOn": [
+                "dal_build",
+                "model_build"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "dal_build",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/src/kiwiho.EFcore.MultiTenant.DAL/kiwiho.EFcore.MultiTenant.DAL.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "model_build",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/src/kiwiho.EFcore.MultiTenant.Model/kiwiho.EFcore.MultiTenant.Model.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        }
+    ]
+}
