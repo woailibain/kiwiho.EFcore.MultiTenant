@@ -30,14 +30,18 @@ namespace kiwiho.EFcore.MultiTenant.Example.Api
         {
             // services.AddMySqlPerConnection<StoreDbContext>(settings=>
             // {
-                
+            //     settings.ConnectionPrefix = "mysql_";
             // });
             // services.AddMySqlPerTable<StoreDbContext>(connectionName:"mysql_default");
-            services.AddMySqlPerTable<StoreDbContext>(settings=>
-            {
-                settings.ConnectionName = "mysql_default";
-                settings.TableNameFunc = (tenantInfo, tableName)=>$"{tenantInfo.Name}44{tableName}";
-            });
+            // services.AddMySqlPerTable<StoreDbContext>(settings=>
+            // {
+            //     settings.ConnectionName = "mysql_default";
+            //     settings.TableNameFunc = (tenantInfo, tableName)=>$"{tenantInfo.Name}44{tableName}";
+            // });
+
+            // services.AddSqlServerPerConnection<StoreDbContext>(connectionPrefix: "sqlserver_");
+            // services.AddSqlServerPerTable<StoreDbContext>(connectionName: "sqlserver_default");
+            services.AddSqlServerPerSchema<StoreDbContext>(connectionName: "sqlserver_default");
             services.AddControllers();
         }
 
@@ -50,7 +54,7 @@ namespace kiwiho.EFcore.MultiTenant.Example.Api
             }
 
             app.UseMiddleware<TenantInfoMiddleware>();
-            
+
 
             app.UseRouting();
 

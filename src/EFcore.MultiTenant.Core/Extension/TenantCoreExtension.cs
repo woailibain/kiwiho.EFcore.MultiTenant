@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using kiwiho.EFcore.MultiTenant.Core.Impl;
 using kiwiho.EFcore.MultiTenant.Core.Interface;
 using kiwiho.EFcore.MultiTenant.DAL;
@@ -71,6 +72,34 @@ namespace kiwiho.EFcore.MultiTenant.Core.Extension
             return services.AddTenantedDatabase(settings);
         }
 
+        internal static IServiceCollection AddDbPerSchema<TDbContext>(this IServiceCollection services,
+            DbIntegrationType dbType, string key = "default",
+            string connectionName = "tenantConnection",
+            Action<DbContextOptionsBuilder> optionAction = null)
+            where TDbContext : DbContext, ITenantDbContext
+        {
+            var settings = new TenantSettings<TDbContext>()
+            {
+                Key = key,
+                DbType = dbType,
+                ConnectionName = connectionName,
+                ConnectionType = ConnectionResolverType.BySchema,
+                DbContextOptionAction = optionAction
+            };
+
+            return services.AddTenantedDatabase<TDbContext>(settings);
+        }
+
+        internal static IServiceCollection AddDbPerSchema<TDbContext>(this IServiceCollection services)
+            where TDbContext : DbContext, ITenantDbContext
+        {
+            var settings = new TenantSettings<TDbContext>()
+            {
+                ConnectionType = ConnectionResolverType.BySchema
+            };
+            return services.AddTenantedDatabase(settings);
+        }
+
         internal static IServiceCollection AddTenantedDatabase<TDbContext>(this IServiceCollection services,
             TenantSettings<TDbContext> settings)
             where TDbContext : DbContext, ITenantDbContext
@@ -95,6 +124,16 @@ namespace kiwiho.EFcore.MultiTenant.Core.Extension
         {
             var settings = serviceProvider.GetService<TenantSettings<TDbContext>>();
             setupAction?.Invoke(settings);
+            if (settings.ConnectionType == ConnectionResolverType.ByTable)
+            {
+                settings.TableNameFunc = settings.TableNameFunc ?? ((tenantInfo, tableName) => $"{tenantInfo.Name}_{tableName}");
+
+            }
+            if (settings.ConnectionType == ConnectionResolverType.BySchema)
+            {
+                settings.TableNameFunc = settings.TableNameFunc ?? ((tenantInfo, tableName) => $"{tableName}");
+                settings.SchemaFunc = settings.SchemaFunc ?? ((tenantInfo) => tenantInfo.Name);
+            }
             return settings;
         }
 
@@ -102,7 +141,7 @@ namespace kiwiho.EFcore.MultiTenant.Core.Extension
             TenantSettings<TDbContext> settings)
             where TDbContext : DbContext, ITenantDbContext
         {
-            if (settings.ConnectionType == ConnectionResolverType.ByTable || settings.ConnectionType == ConnectionResolverType.BySchema)
+            if (Constants.specialConnectionTypes.Contains(settings.ConnectionType))
             {
                 dbOptions.ReplaceService<IModelCacheKeyFactory, TenantModelCacheKeyFactory<TDbContext>>();
             }

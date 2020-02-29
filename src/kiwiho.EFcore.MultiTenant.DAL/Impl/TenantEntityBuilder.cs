@@ -29,7 +29,8 @@ namespace kiwiho.EFcore.MultiTenant.DAL.Impl
                     case ConnectionResolverType.BySchema:
                         var tableName = this.tenantOption.TableNameFunc?.Invoke(this.tenantOption.TenantInfo, property.PropertyName) 
                             ?? property.PropertyName;
-                        var schemaName = this.tenantOption.SchemaFunc?.Invoke(this.tenantOption.TenantInfo, property.PropertyName);
+                        var schemaName = this.tenantOption.SchemaFunc?.Invoke(this.tenantOption.TenantInfo)
+                            ?? this.tenantOption.TenantInfo.Name;
                         entity.ToTable(tableName, schemaName);
                         break;
                     case ConnectionResolverType.ByTable:

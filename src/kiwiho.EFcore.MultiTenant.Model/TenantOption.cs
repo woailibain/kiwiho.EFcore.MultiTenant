@@ -19,6 +19,6 @@ namespace kiwiho.EFcore.MultiTenant.Model
 
         public Func<TenantInfo, string, string> TableNameFunc { get; set; }
 
-        public Func<TenantInfo, string, string> SchemaFunc { get; set; }
+        public Func<TenantInfo, string> SchemaFunc { get; set; }
     }
 }
