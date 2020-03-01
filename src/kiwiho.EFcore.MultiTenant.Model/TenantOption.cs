@@ -7,8 +7,6 @@ namespace kiwiho.EFcore.MultiTenant.Model
     {
         public string Key { get; set; }
 
-        public TenantInfo TenantInfo { get; set; }
-
         public ConnectionResolverType ConnectionType { get; set; }
 
         public DbIntegrationType DbType { get; set; }

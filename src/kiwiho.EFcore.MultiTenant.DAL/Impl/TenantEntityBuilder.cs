@@ -11,8 +11,11 @@ namespace kiwiho.EFcore.MultiTenant.DAL.Impl
     {
         private readonly IEntityScaner<TDbContext> entityScaner;
         private readonly TenantOption tenantOption;
-        public TenantEntityBuilder(IEntityScaner<TDbContext> entityScaner, TenantOption tenantOption)
+
+        private readonly TenantInfo tenantInfo;
+        public TenantEntityBuilder(IEntityScaner<TDbContext> entityScaner, TenantOption tenantOption, TenantInfo tenantInfo)
         {
+            this.tenantInfo = tenantInfo;
             this.tenantOption = tenantOption;
             this.entityScaner = entityScaner;
         }
@@ -27,15 +30,15 @@ namespace kiwiho.EFcore.MultiTenant.DAL.Impl
                 switch (this.tenantOption.ConnectionType)
                 {
                     case ConnectionResolverType.BySchema:
-                        var tableName = this.tenantOption.TableNameFunc?.Invoke(this.tenantOption.TenantInfo, property.PropertyName) 
+                        var tableName = this.tenantOption.TableNameFunc?.Invoke(this.tenantInfo, property.PropertyName)
                             ?? property.PropertyName;
-                        var schemaName = this.tenantOption.SchemaFunc?.Invoke(this.tenantOption.TenantInfo)
-                            ?? this.tenantOption.TenantInfo.Name;
+                        var schemaName = this.tenantOption.SchemaFunc?.Invoke(this.tenantInfo)
+                            ?? this.tenantInfo.Name;
                         entity.ToTable(tableName, schemaName);
                         break;
                     case ConnectionResolverType.ByTable:
-                        tableName = this.tenantOption.TableNameFunc?.Invoke(this.tenantOption.TenantInfo, property.PropertyName) 
-                            ?? $"{this.tenantOption.TenantInfo.Name}_{property.PropertyName}";
+                        tableName = this.tenantOption.TableNameFunc?.Invoke(this.tenantInfo, property.PropertyName)
+                            ?? $"{this.tenantInfo.Name}_{property.PropertyName}";
                         entity.ToTable(tableName);
                         break;
                     default:

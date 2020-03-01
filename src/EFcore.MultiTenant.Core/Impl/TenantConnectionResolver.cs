@@ -47,7 +47,6 @@ namespace kiwiho.EFcore.MultiTenant.Core.Impl
         TenantOption GenerateOption()
         {
             tenantOption.Key = setting.Key;
-            tenantOption.TenantInfo = this.tenantInfo;
             tenantOption.ConnectionType = setting.ConnectionType;
             tenantOption.DbType = setting.DbType;
             tenantOption.TableNameFunc = setting.TableNameFunc;
