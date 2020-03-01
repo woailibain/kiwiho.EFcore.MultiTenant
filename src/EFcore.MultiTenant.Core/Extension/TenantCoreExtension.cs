@@ -14,9 +14,9 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace kiwiho.EFcore.MultiTenant.Core.Extension
 {
-    internal static class TenantCoreExtension
+    public static class TenantCoreExtension
     {
-        internal static IServiceCollection AddDbPerConnection<TDbContext>(this IServiceCollection services,
+        public static IServiceCollection AddDbPerConnection<TDbContext>(this IServiceCollection services,
             DbIntegrationType dbType, string key = "default",
             string connectionPrefix = "tenanted",
             Action<DbContextOptionsBuilder> optionAction = null)
@@ -34,7 +34,7 @@ namespace kiwiho.EFcore.MultiTenant.Core.Extension
             return services.AddTenantedDatabase<TDbContext>(settings);
         }
 
-        internal static IServiceCollection AddDbPerConnection<TDbContext>(this IServiceCollection services)
+        public static IServiceCollection AddDbPerConnection<TDbContext>(this IServiceCollection services)
             where TDbContext : DbContext, ITenantDbContext
         {
             var settings = new TenantSettings<TDbContext>()
@@ -44,7 +44,7 @@ namespace kiwiho.EFcore.MultiTenant.Core.Extension
             return services.AddTenantedDatabase(settings);
         }
 
-        internal static IServiceCollection AddDbPerTable<TDbContext>(this IServiceCollection services,
+        public static IServiceCollection AddDbPerTable<TDbContext>(this IServiceCollection services,
             DbIntegrationType dbType, string key = "default",
             string connectionName = "tenantConnection",
             Action<DbContextOptionsBuilder> optionAction = null)
@@ -62,7 +62,7 @@ namespace kiwiho.EFcore.MultiTenant.Core.Extension
             return services.AddTenantedDatabase<TDbContext>(settings);
         }
 
-        internal static IServiceCollection AddDbPerTable<TDbContext>(this IServiceCollection services)
+        public static IServiceCollection AddDbPerTable<TDbContext>(this IServiceCollection services)
             where TDbContext : DbContext, ITenantDbContext
         {
             var settings = new TenantSettings<TDbContext>()
@@ -72,7 +72,7 @@ namespace kiwiho.EFcore.MultiTenant.Core.Extension
             return services.AddTenantedDatabase(settings);
         }
 
-        internal static IServiceCollection AddDbPerSchema<TDbContext>(this IServiceCollection services,
+        public static IServiceCollection AddDbPerSchema<TDbContext>(this IServiceCollection services,
             DbIntegrationType dbType, string key = "default",
             string connectionName = "tenantConnection",
             Action<DbContextOptionsBuilder> optionAction = null)
@@ -90,7 +90,7 @@ namespace kiwiho.EFcore.MultiTenant.Core.Extension
             return services.AddTenantedDatabase<TDbContext>(settings);
         }
 
-        internal static IServiceCollection AddDbPerSchema<TDbContext>(this IServiceCollection services)
+        public static IServiceCollection AddDbPerSchema<TDbContext>(this IServiceCollection services)
             where TDbContext : DbContext, ITenantDbContext
         {
             var settings = new TenantSettings<TDbContext>()
@@ -100,7 +100,7 @@ namespace kiwiho.EFcore.MultiTenant.Core.Extension
             return services.AddTenantedDatabase(settings);
         }
 
-        internal static IServiceCollection AddTenantedDatabase<TDbContext>(this IServiceCollection services,
+        public static IServiceCollection AddTenantedDatabase<TDbContext>(this IServiceCollection services,
             TenantSettings<TDbContext> settings)
             where TDbContext : DbContext, ITenantDbContext
         {
@@ -118,7 +118,7 @@ namespace kiwiho.EFcore.MultiTenant.Core.Extension
             return services;
         }
 
-        internal static TenantSettings<TDbContext> InitSettings<TDbContext>(this DbContextOptionsBuilder dbOptions,
+        public static TenantSettings<TDbContext> InitSettings<TDbContext>(this DbContextOptionsBuilder dbOptions,
             IServiceProvider serviceProvider, Action<TenantSettings<TDbContext>> setupAction)
             where TDbContext : DbContext, ITenantDbContext
         {
@@ -137,7 +137,7 @@ namespace kiwiho.EFcore.MultiTenant.Core.Extension
             return settings;
         }
 
-        internal static void ReplaceServiceTenanted<TDbContext>(this DbContextOptionsBuilder dbOptions,
+        public static void ReplaceServiceTenanted<TDbContext>(this DbContextOptionsBuilder dbOptions,
             TenantSettings<TDbContext> settings)
             where TDbContext : DbContext, ITenantDbContext
         {

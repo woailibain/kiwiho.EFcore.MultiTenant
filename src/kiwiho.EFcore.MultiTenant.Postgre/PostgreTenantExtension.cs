@@ -1,4 +1,6 @@
 using System;
+using kiwiho.EFcore.MultiTenant.Core;
+using kiwiho.EFcore.MultiTenant.Core.Extension;
 using kiwiho.EFcore.MultiTenant.Core.Interface;
 using kiwiho.EFcore.MultiTenant.DAL.Interface;
 using kiwiho.EFcore.MultiTenant.Model;
@@ -6,7 +8,7 @@ using kiwiho.EFcore.MultiTenant.Model.Enum;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace kiwiho.EFcore.MultiTenant.Core.Extension
+namespace Microsoft.EntityFrameworkCore
 {
     public static class PostgreTenantExtension
     {

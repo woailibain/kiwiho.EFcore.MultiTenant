@@ -1,4 +1,6 @@
 using System;
+using kiwiho.EFcore.MultiTenant.Core;
+using kiwiho.EFcore.MultiTenant.Core.Extension;
 using kiwiho.EFcore.MultiTenant.Core.Interface;
 using kiwiho.EFcore.MultiTenant.DAL.Interface;
 using kiwiho.EFcore.MultiTenant.Model;
@@ -7,9 +9,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace kiwiho.EFcore.MultiTenant.Core.Extension
+namespace Microsoft.EntityFrameworkCore
 {
-    public static class MySqlTenantExtension
+    public static class MySqlTenantExtension 
     {
         public static IServiceCollection AddMySqlPerConnection<TDbContext>(this IServiceCollection services,
             string key = "default",
