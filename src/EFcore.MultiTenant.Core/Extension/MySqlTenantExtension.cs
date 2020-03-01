@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace kiwiho.EFcore.MultiTenant.Core.Extension
 {
-    public static class MySqlTenantExtenstion
+    public static class MySqlTenantExtension
     {
         public static IServiceCollection AddMySqlPerConnection<TDbContext>(this IServiceCollection services,
             string key = "default",
