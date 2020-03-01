@@ -6,6 +6,7 @@ namespace kiwiho.EFcore.MultiTenant.Model.Enum
     {
         None = 0,
         Mysql = 1,
-        SqlServer = 2
+        SqlServer = 2,
+        Postgre = 3,
     }
 }

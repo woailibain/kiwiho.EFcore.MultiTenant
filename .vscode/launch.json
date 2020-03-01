@@ -8,7 +8,7 @@
             "name": ".NET Core Launch (web)",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "api_build",
+            // "preLaunchTask": "api_build",
             "program": "${workspaceFolder}/example/kiwiho.EFcore.MultiTenant.Example.Api/bin/Debug/netcoreapp3.1/kiwiho.EFcore.MultiTenant.Example.Api.dll",
             "args": [],
             "cwd": "${workspaceFolder}/example/kiwiho.EFcore.MultiTenant.Example.Api",

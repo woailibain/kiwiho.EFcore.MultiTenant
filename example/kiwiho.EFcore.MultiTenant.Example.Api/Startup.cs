@@ -28,6 +28,7 @@ namespace kiwiho.EFcore.MultiTenant.Example.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // MySql
             // services.AddMySqlPerConnection<StoreDbContext>(settings=>
             // {
             //     settings.ConnectionPrefix = "mysql_";
@@ -39,9 +40,17 @@ namespace kiwiho.EFcore.MultiTenant.Example.Api
             //     settings.TableNameFunc = (tenantInfo, tableName)=>$"{tenantInfo.Name}44{tableName}";
             // });
 
+            // SqlServer
             // services.AddSqlServerPerConnection<StoreDbContext>(connectionPrefix: "sqlserver_");
             // services.AddSqlServerPerTable<StoreDbContext>(connectionName: "sqlserver_default");
-            services.AddSqlServerPerSchema<StoreDbContext>(connectionName: "sqlserver_default");
+            // services.AddSqlServerPerSchema<StoreDbContext>(connectionName: "sqlserver_default");
+
+            //Postgre
+            // services.AddPostgrePerConnection<StoreDbContext>(connectionPrefix:"postgre_");
+            services.AddPostgrePerTable<StoreDbContext>(connectionName: "postgre_default");
+            // services.AddPostgrePerSchema<StoreDbContext>(connectionName: "postgre_default");
+
+
             services.AddControllers();
         }
 
