@@ -18,6 +18,7 @@ namespace kiwiho.EFcore.MultiTenant.Example.Api.Controllers
         {
             this.storeDbContext = storeDbContext;
             this.storeDbContext.Database.EnsureCreated();
+            
             // this.storeDbContext.Database.Migrate();
         }
 
