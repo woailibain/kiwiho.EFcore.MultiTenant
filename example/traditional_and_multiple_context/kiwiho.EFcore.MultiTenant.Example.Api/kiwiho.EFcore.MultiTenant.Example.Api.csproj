@@ -2,10 +2,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\kiwiho.EFcore.MultiTenant.Example.DAL\kiwiho.EFcore.MultiTenant.Example.DAL.csproj" />
-    <ProjectReference Include="..\..\src\kiwiho.EFcore.MultiTenant.MySql\kiwiho.EFcore.MultiTenant.MySql.csproj" />
-    <ProjectReference Include="..\..\src\kiwiho.EFcore.MultiTenant.Postgre\kiwiho.EFcore.MultiTenant.Postgre.csproj" />
-    <ProjectReference Include="..\..\src\kiwiho.EFcore.MultiTenant.SqlServer\kiwiho.EFcore.MultiTenant.SqlServer.csproj" />
-    <ProjectReference Include="..\..\src\EFcore.MultiTenant.Core\kiwiho.EFcore.MultiTenant.Core.csproj" />
+    <ProjectReference Include="..\..\..\src\kiwiho.EFcore.MultiTenant.MySql\kiwiho.EFcore.MultiTenant.MySql.csproj" />
+    <ProjectReference Include="..\..\..\src\kiwiho.EFcore.MultiTenant.Postgre\kiwiho.EFcore.MultiTenant.Postgre.csproj" />
+    <ProjectReference Include="..\..\..\src\kiwiho.EFcore.MultiTenant.SqlServer\kiwiho.EFcore.MultiTenant.SqlServer.csproj" />
+    <ProjectReference Include="..\..\..\src\kiwiho.EFcore.MultiTenant.Core\kiwiho.EFcore.MultiTenant.Core.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

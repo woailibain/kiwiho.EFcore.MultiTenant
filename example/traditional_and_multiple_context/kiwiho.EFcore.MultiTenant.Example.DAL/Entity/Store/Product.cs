@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace kiwiho.EFcore.MultiTenant.Example.DAL.Entity
+namespace kiwiho.EFcore.MultiTenant.Example.DAL.Entity.Store
 {
     public class Product
     {

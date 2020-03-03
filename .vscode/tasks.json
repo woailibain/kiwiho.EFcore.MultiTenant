@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/example/kiwiho.EFcore.MultiTenant.Example.Api/kiwiho.EFcore.MultiTenant.Example.Api.csproj",
+                "${workspaceFolder}/example/traditional_and_multiple_context/kiwiho.EFcore.MultiTenant.Example.Api/kiwiho.EFcore.MultiTenant.Example.Api.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -31,7 +31,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/example/kiwiho.EFcore.MultiTenant.Example.Api/kiwiho.EFcore.MultiTenant.Example.Api.csproj",
+                "${workspaceFolder}/example/traditional_and_multiple_context/kiwiho.EFcore.MultiTenant.Example.Api/kiwiho.EFcore.MultiTenant.Example.Api.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -56,7 +56,7 @@
             "args": [
                 "watch",
                 "run",
-                "${workspaceFolder}/example/kiwiho.EFcore.MultiTenant.Example.Api/kiwiho.EFcore.MultiTenant.Example.Api.csproj",
+                "${workspaceFolder}/example/traditional_and_multiple_context/kiwiho.EFcore.MultiTenant.Example.Api/kiwiho.EFcore.MultiTenant.Example.Api.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -80,7 +80,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/example/kiwiho.EFcore.MultiTenant.Example.DAL/kiwiho.EFcore.MultiTenant.Example.DAL.csproj",
+                "${workspaceFolder}/example/traditional_and_multiple_context/kiwiho.EFcore.MultiTenant.Example.DAL/kiwiho.EFcore.MultiTenant.Example.DAL.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],

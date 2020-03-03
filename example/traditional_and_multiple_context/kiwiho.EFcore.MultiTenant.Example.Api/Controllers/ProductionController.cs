@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using kiwiho.EFcore.MultiTenant.Example.DAL;
 using kiwiho.EFcore.MultiTenant.Example.DAL.Entity;
+using kiwiho.EFcore.MultiTenant.Example.DAL.Entity.Store;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 

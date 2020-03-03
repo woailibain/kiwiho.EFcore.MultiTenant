@@ -17,7 +17,7 @@
   <ItemGroup>
     <ProjectReference Include="..\kiwiho.EFcore.MultiTenant.DAL\kiwiho.EFcore.MultiTenant.DAL.csproj" />
     <ProjectReference Include="..\kiwiho.EFcore.MultiTenant.Model\kiwiho.EFcore.MultiTenant.Model.csproj" />
-    <ProjectReference Include="..\EFcore.MultiTenant.Core\kiwiho.EFcore.MultiTenant.Core.csproj" />
+    <ProjectReference Include="..\kiwiho.EFcore.MultiTenant.Core\kiwiho.EFcore.MultiTenant.Core.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,6 @@
 using System;
 using kiwiho.EFcore.MultiTenant.DAL.Impl;
-using kiwiho.EFcore.MultiTenant.Example.DAL.Entity;
+using kiwiho.EFcore.MultiTenant.Example.DAL.Entity.Store;
 using kiwiho.EFcore.MultiTenant.Model;
 using Microsoft.EntityFrameworkCore;
 
