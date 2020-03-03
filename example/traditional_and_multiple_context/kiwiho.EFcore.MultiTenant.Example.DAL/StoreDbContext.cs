@@ -10,7 +10,7 @@ namespace kiwiho.EFcore.MultiTenant.Example.DAL
     {
         public DbSet<Product> Products => this.Set<Product>();
         
-        public StoreDbContext(DbContextOptions options, TenantInfo tenant, IServiceProvider serviceProvider) 
+        public StoreDbContext(DbContextOptions<StoreDbContext> options, TenantInfo tenant, IServiceProvider serviceProvider) 
             : base(options, tenant, serviceProvider)
         {
             

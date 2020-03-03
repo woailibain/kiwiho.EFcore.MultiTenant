@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 namespace kiwiho.EFcore.MultiTenant.Example.Api.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/[controller]s")]
     public class ProductController : ControllerBase
     {
         private readonly StoreDbContext storeDbContext;

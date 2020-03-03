@@ -29,10 +29,10 @@ namespace kiwiho.EFcore.MultiTenant.Example.Api
         public void ConfigureServices(IServiceCollection services)
         {
             // MySql
-            // services.AddMySqlPerConnection<StoreDbContext>(settings=>
-            // {
-            //     settings.ConnectionPrefix = "mysql_";
-            // });
+            services.AddMySqlPerConnection<StoreDbContext>(settings=>
+            {
+                settings.ConnectionPrefix = "mysql_";
+            });
             // services.AddMySqlPerTable<StoreDbContext>(connectionName:"mysql_default");
             // services.AddMySqlPerTable<StoreDbContext>(settings=>
             // {
@@ -47,9 +47,10 @@ namespace kiwiho.EFcore.MultiTenant.Example.Api
 
             //Postgre
             // services.AddPostgrePerConnection<StoreDbContext>(connectionPrefix:"postgre_");
-            services.AddPostgrePerTable<StoreDbContext>(connectionName: "postgre_default");
+            // services.AddPostgrePerTable<StoreDbContext>(connectionName: "postgre_default");
             // services.AddPostgrePerSchema<StoreDbContext>(connectionName: "postgre_default");
 
+            services.AddMySqlPerTable<CustomerDbContext>("customer","mysql_default_customer");
 
             services.AddControllers();
         }
