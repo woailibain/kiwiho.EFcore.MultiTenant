@@ -17,7 +17,7 @@ namespace kiwiho.EFcore.MultiTenant.Core
 
         public async Task InvokeAsync(HttpContext context, ITenantInfoGenerator tenantInfoGenerator)
         {
-            tenantInfoGenerator.GenerateTenant(context);
+            tenantInfoGenerator.GenerateTenant(this, context);
 
             // Call the next delegate/middleware in the pipeline
             await _next(context);

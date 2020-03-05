@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.CompilerServices;
 using kiwiho.EFcore.MultiTenant.Core.Interface;
 using kiwiho.EFcore.MultiTenant.Model;
 using Microsoft.AspNetCore.Http;
@@ -13,7 +14,7 @@ namespace kiwiho.EFcore.MultiTenant.Core.Impl
             this.tenantInfo = tenantInfo;
         }
 
-        public TenantInfo GenerateTenant(HttpContext httpContext)
+        public TenantInfo GenerateTenant(object sender, HttpContext httpContext)
         {
             if (!this.tenantInfo.IsPresent)
             {
@@ -23,7 +24,7 @@ namespace kiwiho.EFcore.MultiTenant.Core.Impl
                 {
                     this.tenantInfo.IsPresent = true;
                     this.tenantInfo.Name = tenantName;
-                    this.tenantInfo.GeneratorType = this.GetType();
+                    this.tenantInfo.Generator = this;
                 }
             }
 

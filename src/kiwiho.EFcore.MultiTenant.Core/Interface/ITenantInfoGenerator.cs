@@ -7,7 +7,7 @@ namespace kiwiho.EFcore.MultiTenant.Core.Interface
 {
     public interface ITenantInfoGenerator
     {
-        TenantInfo GenerateTenant(HttpContext httpContext);
+        TenantInfo GenerateTenant(object sender, HttpContext httpContext);
     }
 
 }
