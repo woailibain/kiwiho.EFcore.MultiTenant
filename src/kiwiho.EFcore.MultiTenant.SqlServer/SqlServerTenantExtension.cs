@@ -6,6 +6,7 @@ using kiwiho.EFcore.MultiTenant.DAL.Interface;
 using kiwiho.EFcore.MultiTenant.Model;
 using kiwiho.EFcore.MultiTenant.Model.Enum;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Microsoft.EntityFrameworkCore
@@ -26,8 +27,8 @@ namespace Microsoft.EntityFrameworkCore
             Action<TenantSettings<TDbContext>> setupAction = null)
             where TDbContext : DbContext, ITenantDbContext
         {
-            services.AddSqlServerTenanted<TDbContext>(setupAction);
-            return services.AddDbPerConnection<TDbContext>();
+            services.AddSqlServerTenanted<TDbContext>();
+            return services.AddDbPerConnection<TDbContext>(setupAction);
         }
 
         public static IServiceCollection AddSqlServerPerTable<TDbContext>(this IServiceCollection services,
@@ -44,8 +45,8 @@ namespace Microsoft.EntityFrameworkCore
             Action<TenantSettings<TDbContext>> setupAction = null)
             where TDbContext : DbContext, ITenantDbContext
         {
-            services.AddSqlServerTenanted<TDbContext>(setupAction);
-            return services.AddDbPerTable<TDbContext>();
+            services.AddSqlServerTenanted<TDbContext>();
+            return services.AddDbPerTable<TDbContext>(setupAction);
         }
 
         public static IServiceCollection AddSqlServerPerSchema<TDbContext>(this IServiceCollection services,
@@ -62,35 +63,33 @@ namespace Microsoft.EntityFrameworkCore
             Action<TenantSettings<TDbContext>> setupAction = null)
             where TDbContext : DbContext, ITenantDbContext
         {
-            services.AddSqlServerTenanted<TDbContext>(setupAction);
-            return services.AddDbPerSchema<TDbContext>();
+            services.AddSqlServerTenanted<TDbContext>();
+            return services.AddDbPerSchema<TDbContext>(setupAction);
         }
 
-        internal static IServiceCollection AddSqlServerTenanted<TDbContext>(this IServiceCollection services,
-            Action<TenantSettings<TDbContext>> setupAction = null)
+        internal static IServiceCollection AddSqlServerTenanted<TDbContext>(this IServiceCollection services)
             where TDbContext : DbContext, ITenantDbContext
         {
             services.AddDbContext<TDbContext>((serviceProvider, options) =>
             {
-                SetUpSqlServer<TDbContext>(serviceProvider, options, setupAction);
+                SetUpSqlServer<TDbContext>(serviceProvider, options);
             });
 
             return services;
         }
 
         internal static void SetUpSqlServer<TDbContext>(IServiceProvider serviceProvider,
-            DbContextOptionsBuilder optionsBuilder,
-            Action<TenantSettings<TDbContext>> setupAction = null)
+            DbContextOptionsBuilder optionsBuilder)
             where TDbContext : DbContext, ITenantDbContext
         {
-            var settings = optionsBuilder.InitSettings<TDbContext>(serviceProvider, setupAction);
-            settings.DbType = DbIntegrationType.SqlServer;
+            var settings = serviceProvider.GetService<TenantSettings<TDbContext>>();
 
             var connectionResolver = serviceProvider.GetService<ITenantConnectionResolver<TDbContext>>();
 
             var tenant = serviceProvider.GetService<TenantInfo>();
             optionsBuilder.UseSqlServer(connectionResolver.GetConnection(), builder =>
             {
+                
                 if (settings.ConnectionType == ConnectionResolverType.ByTable)
                 {
                     builder.MigrationsHistoryTable($"{tenant.Name}__EFMigrationsHistory");
@@ -99,10 +98,12 @@ namespace Microsoft.EntityFrameworkCore
                 {
                     builder.MigrationsHistoryTable("__EFMigrationHistory", $"{(settings.SchemaFunc?.Invoke(tenant) ?? tenant.Name)}");
                 }
+                builder.ss();
             });
 
             optionsBuilder.ReplaceServiceTenanted(settings);
             settings.DbContextOptionAction?.Invoke(optionsBuilder);
         }
+
     }
 }

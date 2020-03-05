@@ -27,8 +27,8 @@ namespace Microsoft.EntityFrameworkCore
             Action<TenantSettings<TDbContext>> setupAction = null)
             where TDbContext : DbContext, ITenantDbContext
         {
-            services.AddMySqlTenanted<TDbContext>(setupAction);
-            return services.AddDbPerConnection<TDbContext>();
+            services.AddMySqlTenanted<TDbContext>();
+            return services.AddDbPerConnection<TDbContext>(setupAction);
         }
 
         public static IServiceCollection AddMySqlPerTable<TDbContext>(this IServiceCollection services,
@@ -45,30 +45,26 @@ namespace Microsoft.EntityFrameworkCore
             Action<TenantSettings<TDbContext>> setupAction = null)
             where TDbContext : DbContext, ITenantDbContext
         {
-            services.AddMySqlTenanted<TDbContext>(setupAction);
-            return services.AddDbPerTable<TDbContext>();
+            services.AddMySqlTenanted<TDbContext>();
+            return services.AddDbPerTable<TDbContext>(setupAction);
         }
 
-        internal static IServiceCollection AddMySqlTenanted<TDbContext>(this IServiceCollection services,
-            Action<TenantSettings<TDbContext>> setupAction = null)
+        internal static IServiceCollection AddMySqlTenanted<TDbContext>(this IServiceCollection services)
             where TDbContext : DbContext, ITenantDbContext
         {
             services.AddDbContext<TDbContext>((serviceProvider, options) =>
             {
-                SetUpMySql<TDbContext>(serviceProvider, options, setupAction);
+                SetUpMySql<TDbContext>(serviceProvider, options);
             });
 
             return services;
         }
 
         internal static void SetUpMySql<TDbContext>(IServiceProvider serviceProvider,
-            DbContextOptionsBuilder optionsBuilder,
-            Action<TenantSettings<TDbContext>> setupAction = null)
+            DbContextOptionsBuilder optionsBuilder)
             where TDbContext : DbContext, ITenantDbContext
         {
-            var settings = optionsBuilder.InitSettings<TDbContext>(serviceProvider, setupAction);
-            settings.DbType = DbIntegrationType.Mysql;
-
+            var settings = serviceProvider.GetService<TenantSettings<TDbContext>>();
             var connectionResolver = serviceProvider.GetService<ITenantConnectionResolver<TDbContext>>();
 
             var tenant = serviceProvider.GetService<TenantInfo>();
@@ -78,6 +74,7 @@ namespace Microsoft.EntityFrameworkCore
                 {
                     builder.MigrationsHistoryTable($"{tenant.Name}__EFMigrationsHistory");
                 }
+                builder.ss();
             });
 
             optionsBuilder.ReplaceServiceTenanted(settings);

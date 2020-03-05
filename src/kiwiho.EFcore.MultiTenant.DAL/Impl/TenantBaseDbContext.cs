@@ -19,7 +19,7 @@ namespace kiwiho.EFcore.MultiTenant.DAL.Impl
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             var builderType = typeof(ITenantEntityBuilder<>).MakeGenericType(this.GetType());
-            var ss =serviceProvider.GetService(builderType);
+            
             ITenantEntityBuilder entityBuilder = (ITenantEntityBuilder)serviceProvider.GetService(builderType);
 
             entityBuilder.UpdateEntities(modelBuilder);

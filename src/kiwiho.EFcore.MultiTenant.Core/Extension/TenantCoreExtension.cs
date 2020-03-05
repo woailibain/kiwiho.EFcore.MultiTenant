@@ -34,14 +34,15 @@ namespace kiwiho.EFcore.MultiTenant.Core.Extension
             return services.AddTenantedDatabase<TDbContext>(settings);
         }
 
-        public static IServiceCollection AddDbPerConnection<TDbContext>(this IServiceCollection services)
+        public static IServiceCollection AddDbPerConnection<TDbContext>(this IServiceCollection services,
+            Action<TenantSettings<TDbContext>> setupAction = null)
             where TDbContext : DbContext, ITenantDbContext
         {
             var settings = new TenantSettings<TDbContext>()
             {
                 ConnectionType = ConnectionResolverType.ByDatabase
             };
-            return services.AddTenantedDatabase(settings);
+            return services.AddTenantedDatabase(settings, setupAction);
         }
 
         public static IServiceCollection AddDbPerTable<TDbContext>(this IServiceCollection services,
@@ -62,14 +63,15 @@ namespace kiwiho.EFcore.MultiTenant.Core.Extension
             return services.AddTenantedDatabase<TDbContext>(settings);
         }
 
-        public static IServiceCollection AddDbPerTable<TDbContext>(this IServiceCollection services)
+        public static IServiceCollection AddDbPerTable<TDbContext>(this IServiceCollection services,
+            Action<TenantSettings<TDbContext>> setupAction = null)
             where TDbContext : DbContext, ITenantDbContext
         {
             var settings = new TenantSettings<TDbContext>()
             {
                 ConnectionType = ConnectionResolverType.ByTable
             };
-            return services.AddTenantedDatabase(settings);
+            return services.AddTenantedDatabase(settings, setupAction);
         }
 
         public static IServiceCollection AddDbPerSchema<TDbContext>(this IServiceCollection services,
@@ -90,21 +92,21 @@ namespace kiwiho.EFcore.MultiTenant.Core.Extension
             return services.AddTenantedDatabase<TDbContext>(settings);
         }
 
-        public static IServiceCollection AddDbPerSchema<TDbContext>(this IServiceCollection services)
+        public static IServiceCollection AddDbPerSchema<TDbContext>(this IServiceCollection services,
+            Action<TenantSettings<TDbContext>> setupAction = null)
             where TDbContext : DbContext, ITenantDbContext
         {
             var settings = new TenantSettings<TDbContext>()
             {
                 ConnectionType = ConnectionResolverType.BySchema
             };
-            return services.AddTenantedDatabase(settings);
+            return services.AddTenantedDatabase(settings, setupAction);
         }
 
         public static IServiceCollection AddTenantedDatabase<TDbContext>(this IServiceCollection services,
-            TenantSettings<TDbContext> settings)
+            TenantSettings<TDbContext> settings, Action<TenantSettings<TDbContext>> setupAction = null)
             where TDbContext : DbContext, ITenantDbContext
         {
-            services.AddSingleton(settings);
             services.AddScoped<TenantInfo>();
             services.AddScoped<TenantOption>();
             services.TryAddScoped<ITenantInfoGenerator, SimpleHeaderTenantInfoGenerator>();
@@ -112,29 +114,23 @@ namespace kiwiho.EFcore.MultiTenant.Core.Extension
             services.TryAddScoped<ITenantEntityBuilder<TDbContext>, TenantEntityBuilder<TDbContext>>();
             services.TryAddScoped<IEntityScaner<TDbContext>, SimpleEntityScaner<TDbContext>>();
             services.AddScoped<NamedConnectionGenerator>();
-
+            services.InitSettings(settings, setupAction);
 
 
             return services;
         }
 
-        public static TenantSettings<TDbContext> InitSettings<TDbContext>(this DbContextOptionsBuilder dbOptions,
-            IServiceProvider serviceProvider, Action<TenantSettings<TDbContext>> setupAction)
+        internal static IServiceCollection InitSettings<TDbContext>(this IServiceCollection services, 
+            TenantSettings<TDbContext> settings,  Action<TenantSettings<TDbContext>> setupAction)
             where TDbContext : DbContext, ITenantDbContext
         {
-            var settings = serviceProvider.GetService<TenantSettings<TDbContext>>();
-            setupAction?.Invoke(settings);
-            if (settings.ConnectionType == ConnectionResolverType.ByTable)
+            services.AddSingleton((sp) =>
             {
-                settings.TableNameFunc = settings.TableNameFunc ?? ((tenantInfo, tableName) => $"{tenantInfo.Name}_{tableName}");
-
-            }
-            if (settings.ConnectionType == ConnectionResolverType.BySchema)
-            {
-                settings.TableNameFunc = settings.TableNameFunc ?? ((tenantInfo, tableName) => $"{tableName}");
-                settings.SchemaFunc = settings.SchemaFunc ?? ((tenantInfo) => tenantInfo.Name);
-            }
-            return settings;
+                var rct = settings ?? new TenantSettings<TDbContext>();
+                setupAction?.Invoke(rct);
+                return rct;
+            });
+            return services;
         }
 
         public static void ReplaceServiceTenanted<TDbContext>(this DbContextOptionsBuilder dbOptions,
@@ -145,6 +141,14 @@ namespace kiwiho.EFcore.MultiTenant.Core.Extension
             {
                 dbOptions.ReplaceService<IModelCacheKeyFactory, TenantModelCacheKeyFactory<TDbContext>>();
             }
+        }
+
+
+        public static void ss<TBuilder, TExtension>(this RelationalDbContextOptionsBuilder<TBuilder, TExtension> s)
+        where TBuilder : RelationalDbContextOptionsBuilder<TBuilder, TExtension>
+        where TExtension : RelationalOptionsExtension, new()
+        {
+
         }
     }
 }

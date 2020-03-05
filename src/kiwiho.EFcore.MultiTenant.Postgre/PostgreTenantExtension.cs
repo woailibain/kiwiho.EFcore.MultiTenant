@@ -26,8 +26,8 @@ namespace Microsoft.EntityFrameworkCore
             Action<TenantSettings<TDbContext>> setupAction = null)
             where TDbContext : DbContext, ITenantDbContext
         {
-            services.AddPostgreTenanted<TDbContext>(setupAction);
-            return services.AddDbPerConnection<TDbContext>();
+            services.AddPostgreTenanted<TDbContext>();
+            return services.AddDbPerConnection<TDbContext>(setupAction);
         }
 
         public static IServiceCollection AddPostgrePerTable<TDbContext>(this IServiceCollection services,
@@ -44,8 +44,8 @@ namespace Microsoft.EntityFrameworkCore
             Action<TenantSettings<TDbContext>> setupAction = null)
             where TDbContext : DbContext, ITenantDbContext
         {
-            services.AddPostgreTenanted<TDbContext>(setupAction);
-            return services.AddDbPerTable<TDbContext>();
+            services.AddPostgreTenanted<TDbContext>();
+            return services.AddDbPerTable<TDbContext>(setupAction);
         }
 
         public static IServiceCollection AddPostgrePerSchema<TDbContext>(this IServiceCollection services,
@@ -62,29 +62,26 @@ namespace Microsoft.EntityFrameworkCore
             Action<TenantSettings<TDbContext>> setupAction = null)
             where TDbContext : DbContext, ITenantDbContext
         {
-            services.AddPostgreTenanted<TDbContext>(setupAction);
-            return services.AddDbPerSchema<TDbContext>();
+            services.AddPostgreTenanted<TDbContext>();
+            return services.AddDbPerSchema<TDbContext>(setupAction);
         }
 
-        internal static IServiceCollection AddPostgreTenanted<TDbContext>(this IServiceCollection services,
-            Action<TenantSettings<TDbContext>> setupAction = null)
+        internal static IServiceCollection AddPostgreTenanted<TDbContext>(this IServiceCollection services)
             where TDbContext : DbContext, ITenantDbContext
         {
             services.AddDbContext<TDbContext>((serviceProvider, options) =>
             {
-                SetUpPostgre<TDbContext>(serviceProvider, options, setupAction);
+                SetUpPostgre<TDbContext>(serviceProvider, options);
             });
 
             return services;
         }
 
         internal static void SetUpPostgre<TDbContext>(IServiceProvider serviceProvider,
-            DbContextOptionsBuilder optionsBuilder,
-            Action<TenantSettings<TDbContext>> setupAction = null)
+            DbContextOptionsBuilder optionsBuilder)
             where TDbContext : DbContext, ITenantDbContext
         {
-            var settings = optionsBuilder.InitSettings<TDbContext>(serviceProvider, setupAction);
-            settings.DbType = DbIntegrationType.Postgre;
+            var settings = serviceProvider.GetService<TenantSettings<TDbContext>>();
 
             var connectionResolver = serviceProvider.GetService<ITenantConnectionResolver<TDbContext>>();
 
