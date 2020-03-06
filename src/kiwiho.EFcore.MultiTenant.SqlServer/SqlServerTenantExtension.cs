@@ -20,7 +20,6 @@ namespace Microsoft.EntityFrameworkCore
             Action<IServiceProvider, string, DbContextOptionsBuilder> dbContextSetup = null)
             where TDbContext : DbContext, ITenantDbContext
         {
-            //services.AddSqlServerTenanted<TDbContext>();
             return services.AddDbPerConnection<TDbContext>(DbIntegrationType.SqlServer, key, connectionPrefix, 
                 optionAction, dbContextSetup ?? SetUpSqlServer<TDbContext>);
         }
@@ -29,7 +28,6 @@ namespace Microsoft.EntityFrameworkCore
             Action<TenantSettings<TDbContext>> setupAction = null)
             where TDbContext : DbContext, ITenantDbContext
         {
-            //services.AddSqlServerTenanted<TDbContext>();
             return services.AddDbPerConnection<TDbContext>(CombineSettings(setupAction));
         }
 
@@ -40,7 +38,6 @@ namespace Microsoft.EntityFrameworkCore
             Action<IServiceProvider, string, DbContextOptionsBuilder> dbContextSetup = null)
             where TDbContext : DbContext, ITenantDbContext
         {
-            //services.AddSqlServerTenanted<TDbContext>();
             return services.AddDbPerTable<TDbContext>(DbIntegrationType.SqlServer, key, connectionName,
                 optionAction, dbContextSetup ?? SetUpSqlServer<TDbContext>);
         }
@@ -49,7 +46,6 @@ namespace Microsoft.EntityFrameworkCore
             Action<TenantSettings<TDbContext>> setupAction = null)
             where TDbContext : DbContext, ITenantDbContext
         {
-            //services.AddSqlServerTenanted<TDbContext>();
             return services.AddDbPerTable<TDbContext>(CombineSettings(setupAction));
         }
 
@@ -60,7 +56,6 @@ namespace Microsoft.EntityFrameworkCore
             Action<IServiceProvider, string, DbContextOptionsBuilder> dbContextSetup = null)
             where TDbContext : DbContext, ITenantDbContext
         {
-            //services.AddSqlServerTenanted<TDbContext>();
             return services.AddDbPerSchema<TDbContext>(DbIntegrationType.SqlServer, key, connectionName,
                 optionAction, dbContextSetup ?? SetUpSqlServer<TDbContext>);
         }
@@ -69,46 +64,8 @@ namespace Microsoft.EntityFrameworkCore
             Action<TenantSettings<TDbContext>> setupAction = null)
             where TDbContext : DbContext, ITenantDbContext
         {
-            //services.AddSqlServerTenanted<TDbContext>();
             return services.AddDbPerSchema<TDbContext>(CombineSettings(setupAction));
         }
-
-        internal static IServiceCollection AddSqlServerTenanted<TDbContext>(this IServiceCollection services)
-            where TDbContext : DbContext, ITenantDbContext
-        {
-            // services.AddDbContext<TDbContext>((serviceProvider, options) =>
-            // {
-            //     SetUpSqlServer<TDbContext>(serviceProvider, options);
-            // });
-
-            return services;
-        }
-
-        // internal static void SetUpSqlServer<TDbContext>(IServiceProvider serviceProvider,
-        //     DbContextOptionsBuilder optionsBuilder)
-        //     where TDbContext : DbContext, ITenantDbContext
-        // {
-        //     var settings = serviceProvider.GetService<TenantSettings<TDbContext>>();
-
-        //     var connectionResolver = serviceProvider.GetService<ITenantConnectionResolver<TDbContext>>();
-
-        //     var tenant = serviceProvider.GetService<TenantInfo>();
-        //     optionsBuilder.UseSqlServer(connectionResolver.GetConnection(), builder =>
-        //     {
-                
-        //         if (settings.ConnectionType == ConnectionResolverType.ByTable)
-        //         {
-        //             builder.MigrationsHistoryTable($"{tenant.Name}__EFMigrationsHistory");
-        //         }
-        //         if (settings.ConnectionType == ConnectionResolverType.BySchema)
-        //         {
-        //             builder.MigrationsHistoryTable("__EFMigrationHistory", $"{(settings.SchemaFunc?.Invoke(tenant) ?? tenant.Name)}");
-        //         }
-        //     });
-
-        //     optionsBuilder.ReplaceServiceTenanted(settings);
-        //     settings.DbContextOptionAction?.Invoke(optionsBuilder);
-        // }
 
         static Action<TenantSettings<TDbContext>> CombineSettings<TDbContext>(
             Action<TenantSettings<TDbContext>> setupAction = null)
