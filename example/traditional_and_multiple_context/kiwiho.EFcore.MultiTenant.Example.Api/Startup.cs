@@ -42,12 +42,24 @@ namespace kiwiho.EFcore.MultiTenant.Example.Api
 
             // SqlServer
             // services.AddSqlServerPerConnection<StoreDbContext>(connectionPrefix: "sqlserver_");
+            // services.AddSqlServerPerConnection<StoreDbContext>(settings=>
+            // {
+            //     settings.ConnectionPrefix = "sqlserver_";
+            // });
             // services.AddSqlServerPerTable<StoreDbContext>(connectionName: "sqlserver_default");
             // services.AddSqlServerPerSchema<StoreDbContext>(connectionName: "sqlserver_default");
 
             //Postgre
             // services.AddPostgrePerConnection<StoreDbContext>(connectionPrefix:"postgre_");
+            // services.AddPostgrePerConnection<StoreDbContext>(settings=>
+            // {
+            //     settings.ConnectionPrefix = "postgre_";
+            // });
             // services.AddPostgrePerTable<StoreDbContext>(connectionName: "postgre_default");
+            // services.AddPostgrePerTable<StoreDbContext>(settings =>
+            // {
+            //     settings.ConnectionName = "postgre_default";   
+            // });
             // services.AddPostgrePerSchema<StoreDbContext>(connectionName: "postgre_default");
 
             services.AddMySqlPerTable<CustomerDbContext>("customer","mysql_default_customer");

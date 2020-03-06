@@ -11,74 +11,67 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Microsoft.EntityFrameworkCore
 {
-    public static class MySqlTenantExtension 
+    public static class MySqlTenantExtension
     {
         public static IServiceCollection AddMySqlPerConnection<TDbContext>(this IServiceCollection services,
             string key = "default",
             string connectionPrefix = "tenanted",
-            Action<DbContextOptionsBuilder> optionAction = null)
+            Action<DbContextOptionsBuilder> optionAction = null,
+            Action<IServiceProvider, string, DbContextOptionsBuilder> dbContextSetup = null)
             where TDbContext : DbContext, ITenantDbContext
         {
-            services.AddMySqlTenanted<TDbContext>();
-            return services.AddDbPerConnection<TDbContext>(DbIntegrationType.Mysql, key, connectionPrefix);
+            return services.AddDbPerConnection<TDbContext>(DbIntegrationType.Mysql, key, connectionPrefix, 
+                optionAction, dbContextSetup ?? SetUpMySql<TDbContext>);
         }
 
         public static IServiceCollection AddMySqlPerConnection<TDbContext>(this IServiceCollection services,
             Action<TenantSettings<TDbContext>> setupAction = null)
             where TDbContext : DbContext, ITenantDbContext
         {
-            services.AddMySqlTenanted<TDbContext>();
-            return services.AddDbPerConnection<TDbContext>(setupAction);
+            return services.AddDbPerConnection<TDbContext>(CombineSettings(setupAction));
         }
 
         public static IServiceCollection AddMySqlPerTable<TDbContext>(this IServiceCollection services,
             string key = "default",
             string connectionName = "tenanted",
-            Action<DbContextOptionsBuilder> optionAction = null)
+            Action<DbContextOptionsBuilder> optionAction = null,
+            Action<IServiceProvider, string, DbContextOptionsBuilder> dbContextSetup = null)
             where TDbContext : DbContext, ITenantDbContext
         {
-            services.AddMySqlTenanted<TDbContext>();
-            return services.AddDbPerTable<TDbContext>(DbIntegrationType.Mysql, key, connectionName);
+            return services.AddDbPerTable<TDbContext>(DbIntegrationType.Mysql, key, connectionName, 
+                optionAction, dbContextSetup ?? SetUpMySql<TDbContext>);
         }
 
         public static IServiceCollection AddMySqlPerTable<TDbContext>(this IServiceCollection services,
             Action<TenantSettings<TDbContext>> setupAction = null)
             where TDbContext : DbContext, ITenantDbContext
         {
-            services.AddMySqlTenanted<TDbContext>();
-            return services.AddDbPerTable<TDbContext>(setupAction);
+            return services.AddDbPerTable<TDbContext>(CombineSettings(setupAction));
         }
 
-        internal static IServiceCollection AddMySqlTenanted<TDbContext>(this IServiceCollection services)
+        static Action<TenantSettings<TDbContext>> CombineSettings<TDbContext>(
+            Action<TenantSettings<TDbContext>> setupAction = null)
             where TDbContext : DbContext, ITenantDbContext
         {
-            services.AddDbContext<TDbContext>((serviceProvider, options) =>
+            return (settings) =>
             {
-                SetUpMySql<TDbContext>(serviceProvider, options);
-            });
-
-            return services;
+                settings.DbContextSetup = SetUpMySql<TDbContext>;
+                setupAction?.Invoke(settings);
+            };
         }
 
-        internal static void SetUpMySql<TDbContext>(IServiceProvider serviceProvider,
+        internal static void SetUpMySql<TDbContext>(IServiceProvider serviceProvider, string connectionString,
             DbContextOptionsBuilder optionsBuilder)
             where TDbContext : DbContext, ITenantDbContext
         {
             var settings = serviceProvider.GetService<TenantSettings<TDbContext>>();
-            var connectionResolver = serviceProvider.GetService<ITenantConnectionResolver<TDbContext>>();
-
             var tenant = serviceProvider.GetService<TenantInfo>();
-            optionsBuilder.UseMySql(connectionResolver.GetConnection(), builder =>
+            optionsBuilder.UseMySql(connectionString, builder =>
             {
-                if (settings.ConnectionType == ConnectionResolverType.ByTable)
-                {
-                    builder.MigrationsHistoryTable($"{tenant.Name}__EFMigrationsHistory");
-                }
-                builder.ss();
+                builder.TenantBuilderSetup(serviceProvider, settings, tenant);
             });
-
-            optionsBuilder.ReplaceServiceTenanted(settings);
-            settings.DbContextOptionAction?.Invoke(optionsBuilder);
         }
+
     }
+
 }

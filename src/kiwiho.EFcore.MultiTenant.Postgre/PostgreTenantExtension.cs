@@ -15,91 +15,120 @@ namespace Microsoft.EntityFrameworkCore
         public static IServiceCollection AddPostgrePerConnection<TDbContext>(this IServiceCollection services,
             string key = "default",
             string connectionPrefix = "tenanted",
-            Action<DbContextOptionsBuilder> optionAction = null)
+            Action<DbContextOptionsBuilder> optionAction = null,
+            Action<IServiceProvider, string, DbContextOptionsBuilder> dbContextSetup = null)
             where TDbContext : DbContext, ITenantDbContext
         {
-            services.AddPostgreTenanted<TDbContext>();
-            return services.AddDbPerConnection<TDbContext>(DbIntegrationType.Postgre, key, connectionPrefix);
+            //services.AddPostgreTenanted<TDbContext>();
+            return services.AddDbPerConnection<TDbContext>(DbIntegrationType.Postgre, key, connectionPrefix,
+                optionAction, dbContextSetup ?? SetUpPostgre<TDbContext>);
         }
 
         public static IServiceCollection AddPostgrePerConnection<TDbContext>(this IServiceCollection services,
             Action<TenantSettings<TDbContext>> setupAction = null)
             where TDbContext : DbContext, ITenantDbContext
         {
-            services.AddPostgreTenanted<TDbContext>();
-            return services.AddDbPerConnection<TDbContext>(setupAction);
+            //services.AddPostgreTenanted<TDbContext>();
+            return services.AddDbPerConnection<TDbContext>(CombineSettings(setupAction));
         }
 
         public static IServiceCollection AddPostgrePerTable<TDbContext>(this IServiceCollection services,
             string key = "default",
             string connectionName = "tenanted",
-            Action<DbContextOptionsBuilder> optionAction = null)
+            Action<DbContextOptionsBuilder> optionAction = null,
+            Action<IServiceProvider, string, DbContextOptionsBuilder> dbContextSetup = null)
             where TDbContext : DbContext, ITenantDbContext
         {
-            services.AddPostgreTenanted<TDbContext>();
-            return services.AddDbPerTable<TDbContext>(DbIntegrationType.Postgre, key, connectionName);
+            //services.AddPostgreTenanted<TDbContext>();
+            return services.AddDbPerTable<TDbContext>(DbIntegrationType.Postgre, key, connectionName,
+                optionAction, dbContextSetup ?? SetUpPostgre<TDbContext>);
         }
 
         public static IServiceCollection AddPostgrePerTable<TDbContext>(this IServiceCollection services,
             Action<TenantSettings<TDbContext>> setupAction = null)
             where TDbContext : DbContext, ITenantDbContext
         {
-            services.AddPostgreTenanted<TDbContext>();
-            return services.AddDbPerTable<TDbContext>(setupAction);
+            //services.AddPostgreTenanted<TDbContext>();
+            return services.AddDbPerTable<TDbContext>(CombineSettings(setupAction));
         }
 
         public static IServiceCollection AddPostgrePerSchema<TDbContext>(this IServiceCollection services,
             string key = "default",
             string connectionName = "tenanted",
-            Action<DbContextOptionsBuilder> optionAction = null)
+            Action<DbContextOptionsBuilder> optionAction = null,
+            Action<IServiceProvider, string, DbContextOptionsBuilder> dbContextSetup = null)
             where TDbContext : DbContext, ITenantDbContext
         {
-            services.AddPostgreTenanted<TDbContext>();
-            return services.AddDbPerSchema<TDbContext>(DbIntegrationType.Postgre, key, connectionName);
+            //services.AddPostgreTenanted<TDbContext>();
+            return services.AddDbPerSchema<TDbContext>(DbIntegrationType.Postgre, key, connectionName,
+                optionAction, dbContextSetup ?? SetUpPostgre<TDbContext>);
         }
 
         public static IServiceCollection AddPostgrePerSchema<TDbContext>(this IServiceCollection services,
             Action<TenantSettings<TDbContext>> setupAction = null)
             where TDbContext : DbContext, ITenantDbContext
         {
-            services.AddPostgreTenanted<TDbContext>();
-            return services.AddDbPerSchema<TDbContext>(setupAction);
+            //services.AddPostgreTenanted<TDbContext>();
+            return services.AddDbPerSchema<TDbContext>(CombineSettings(setupAction));
         }
 
         internal static IServiceCollection AddPostgreTenanted<TDbContext>(this IServiceCollection services)
             where TDbContext : DbContext, ITenantDbContext
         {
-            services.AddDbContext<TDbContext>((serviceProvider, options) =>
-            {
-                SetUpPostgre<TDbContext>(serviceProvider, options);
-            });
+            // services.AddDbContext<TDbContext>((serviceProvider, options) =>
+            // {
+            //     SetUpPostgre<TDbContext>(serviceProvider, options);
+            // });
 
             return services;
         }
 
-        internal static void SetUpPostgre<TDbContext>(IServiceProvider serviceProvider,
+        // internal static void SetUpPostgre<TDbContext>(IServiceProvider serviceProvider,
+        //     DbContextOptionsBuilder optionsBuilder)
+        //     where TDbContext : DbContext, ITenantDbContext
+        // {
+        //     var settings = serviceProvider.GetService<TenantSettings<TDbContext>>();
+
+        //     var connectionResolver = serviceProvider.GetService<ITenantConnectionResolver<TDbContext>>();
+
+        //     var tenant = serviceProvider.GetService<TenantInfo>();
+        //     optionsBuilder.UseNpgsql(connectionResolver.GetConnection(), builder =>
+        //     {
+        //         if (settings.ConnectionType == ConnectionResolverType.ByTable)
+        //         {
+        //             builder.MigrationsHistoryTable($"{tenant.Name}__EFMigrationsHistory");
+        //         }
+        //         if (settings.ConnectionType == ConnectionResolverType.BySchema)
+        //         {
+        //             builder.MigrationsHistoryTable("__EFMigrationHistory", $"{(settings.SchemaFunc?.Invoke(tenant) ?? tenant.Name)}");
+        //         }
+        //     });
+
+        //     optionsBuilder.ReplaceServiceTenanted(settings);
+        //     settings.DbContextOptionAction?.Invoke(optionsBuilder);
+        // }
+
+        static Action<TenantSettings<TDbContext>> CombineSettings<TDbContext>(
+            Action<TenantSettings<TDbContext>> setupAction = null)
+            where TDbContext : DbContext, ITenantDbContext
+        {
+            return (settings) =>
+            {
+                settings.DbContextSetup = SetUpPostgre<TDbContext>;
+                setupAction?.Invoke(settings);
+            };
+        }
+
+        internal static void SetUpPostgre<TDbContext>(IServiceProvider serviceProvider, string connectionString,
             DbContextOptionsBuilder optionsBuilder)
             where TDbContext : DbContext, ITenantDbContext
         {
             var settings = serviceProvider.GetService<TenantSettings<TDbContext>>();
-
-            var connectionResolver = serviceProvider.GetService<ITenantConnectionResolver<TDbContext>>();
-
             var tenant = serviceProvider.GetService<TenantInfo>();
-            optionsBuilder.UseNpgsql(connectionResolver.GetConnection(), builder =>
+            optionsBuilder.UseNpgsql(connectionString, builder =>
             {
-                if (settings.ConnectionType == ConnectionResolverType.ByTable)
-                {
-                    builder.MigrationsHistoryTable($"{tenant.Name}__EFMigrationsHistory");
-                }
-                if (settings.ConnectionType == ConnectionResolverType.BySchema)
-                {
-                    builder.MigrationsHistoryTable("__EFMigrationHistory", $"{(settings.SchemaFunc?.Invoke(tenant) ?? tenant.Name)}");
-                }
+                builder.TenantBuilderSetup(serviceProvider, settings, tenant);
             });
-
-            optionsBuilder.ReplaceServiceTenanted(settings);
-            settings.DbContextOptionAction?.Invoke(optionsBuilder);
         }
     }
 }
