@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "kiwiho.EFcore.MultiTenant.E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "kiwiho.EFcore.MultiTenant.Example.DAL", "example\traditional_and_multiple_context\kiwiho.EFcore.MultiTenant.Example.DAL\kiwiho.EFcore.MultiTenant.Example.DAL.csproj", "{01F1FEF5-85B8-4AB7-B9C2-FC4A45A36DAA}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mix_mode", "mix_mode", "{99BE4A92-1111-4703-829E-BFA753FDAFAD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "kiwiho.EFcore.MultiTenant.MixMode", "example\mix_mode\kiwiho.EFcore.MultiTenant.MixMode\kiwiho.EFcore.MultiTenant.MixMode.csproj", "{32B03FE8-8652-4285-9845-62B4C817799E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,10 +52,24 @@ Global
 		{01F1FEF5-85B8-4AB7-B9C2-FC4A45A36DAA}.Release|x64.Build.0 = Release|Any CPU
 		{01F1FEF5-85B8-4AB7-B9C2-FC4A45A36DAA}.Release|x86.ActiveCfg = Release|Any CPU
 		{01F1FEF5-85B8-4AB7-B9C2-FC4A45A36DAA}.Release|x86.Build.0 = Release|Any CPU
+		{32B03FE8-8652-4285-9845-62B4C817799E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32B03FE8-8652-4285-9845-62B4C817799E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32B03FE8-8652-4285-9845-62B4C817799E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{32B03FE8-8652-4285-9845-62B4C817799E}.Debug|x64.Build.0 = Debug|Any CPU
+		{32B03FE8-8652-4285-9845-62B4C817799E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{32B03FE8-8652-4285-9845-62B4C817799E}.Debug|x86.Build.0 = Debug|Any CPU
+		{32B03FE8-8652-4285-9845-62B4C817799E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32B03FE8-8652-4285-9845-62B4C817799E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32B03FE8-8652-4285-9845-62B4C817799E}.Release|x64.ActiveCfg = Release|Any CPU
+		{32B03FE8-8652-4285-9845-62B4C817799E}.Release|x64.Build.0 = Release|Any CPU
+		{32B03FE8-8652-4285-9845-62B4C817799E}.Release|x86.ActiveCfg = Release|Any CPU
+		{32B03FE8-8652-4285-9845-62B4C817799E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{ADD55604-78EB-4EFF-B39A-394D22C8FA9A} = {20F7BAA0-FAFF-43AD-A0EA-EA4882FFC299}
 		{45F73034-B3DB-4060-A5A9-D2A3B7C51DDC} = {ADD55604-78EB-4EFF-B39A-394D22C8FA9A}
 		{01F1FEF5-85B8-4AB7-B9C2-FC4A45A36DAA} = {ADD55604-78EB-4EFF-B39A-394D22C8FA9A}
+		{99BE4A92-1111-4703-829E-BFA753FDAFAD} = {20F7BAA0-FAFF-43AD-A0EA-EA4882FFC299}
+		{32B03FE8-8652-4285-9845-62B4C817799E} = {99BE4A92-1111-4703-829E-BFA753FDAFAD}
 	EndGlobalSection
 EndGlobal

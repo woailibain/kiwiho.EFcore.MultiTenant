@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": ".NET Core Launch (web)",
+            "name": "trditional",
             "type": "coreclr",
             "request": "launch",
             // "preLaunchTask": "api_build",
@@ -17,6 +17,23 @@
             //     "action": "openExternally",
             //     "pattern": "^\\s*Now listening on:\\s+(https?://\\S+)"
             // },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            },
+            "internalConsoleOptions": "neverOpen"
+            
+        },
+        {
+            "name": "mix_mode",
+            "type": "coreclr",
+            "request": "launch",
+            "program": "${workspaceFolder}/example/mix_mode/kiwiho.EFcore.MultiTenant.MixMode/bin/Debug/netcoreapp3.1/kiwiho.EFcore.MultiTenant.MixMode.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/example/mix_mode/kiwiho.EFcore.MultiTenant.MixMode",
+            "stopAtEntry": false,
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development"
             },

@@ -19,6 +19,26 @@
                 "panel": "shared",
                 "showReuseMessage": true,
                 "clear": false
+            }
+        },
+        {
+            "label": "mixMode_build",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/example/mix_mode/kiwiho.EFcore.MultiTenant.MixMode/kiwiho.EFcore.MultiTenant.MixMode.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile",
+            "presentation": {
+                "echo": false,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
             },
             "group": {
                 "kind": "build",

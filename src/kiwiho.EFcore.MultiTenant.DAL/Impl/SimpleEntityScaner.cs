@@ -42,11 +42,6 @@ namespace kiwiho.EFcore.MultiTenant.DAL.Impl
             return dbProperties;
         }
 
-        // public IList<EntityTypeBuilder> ScanEntities(IList<Type> types, ModelBuilder modelBuilder)
-        // {
-        //     return types?.Select(r => modelBuilder.Entity(r)).ToList() ?? new List<EntityTypeBuilder>();
-        // }
-
         bool IsDbSet(PropertyInfo property)
         {
             if (property.CanRead && property.PropertyType.IsGenericType
