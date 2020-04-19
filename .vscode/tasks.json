@@ -39,6 +39,26 @@
                 "panel": "shared",
                 "showReuseMessage": true,
                 "clear": false
+            }
+        },
+        {
+            "label": "readWrite_build",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/example/read_write_splitting/kiwiho.EFcore.MultiTenant.Example.Read_Write/kiwiho.EFcore.MultiTenant.Example.Read_Write.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile",
+            "presentation": {
+                "echo": false,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
             },
             "group": {
                 "kind": "build",

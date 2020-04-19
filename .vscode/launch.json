@@ -40,7 +40,34 @@
             "sourceFileMap": {
                 "/Views": "${workspaceFolder}/Views"
             },
-            "internalConsoleOptions": "neverOpen"
+            "internalConsoleOptions": "neverOpen",
+            // "justMyCode": false,
+            // "symbolOptions": {
+            //     "searchPaths": [],
+            //     "searchMicrosoftSymbolServer": true
+            // }
+            
+        },
+        {
+            "name": "read_write",
+            "type": "coreclr",
+            "request": "launch",
+            "program": "${workspaceFolder}/example/read_write_splitting/kiwiho.EFcore.MultiTenant.Example.Read_Write/bin/Debug/netcoreapp3.1/kiwiho.EFcore.MultiTenant.Example.Read_Write.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/example/read_write_splitting/kiwiho.EFcore.MultiTenant.Example.Read_Write",
+            "stopAtEntry": false,
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            },
+            "internalConsoleOptions": "neverOpen",
+            // "justMyCode": false,
+            // "symbolOptions": {
+            //     "searchPaths": [],
+            //     "searchMicrosoftSymbolServer": true
+            // }
             
         },
         {
