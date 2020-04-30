@@ -49,6 +49,7 @@ namespace kiwiho.EFcore.MultiTenant.Example.Read_Write
                 var tenant = serviceProvider.GetService<TenantInfo>();
                 optionsBuilder.UseMySql(connectionString, builder =>
                 {
+                    // not necessary, if you are not using the table or schema 
                     builder.TenantBuilderSetup(serviceProvider, settings, tenant);
                 });
             };
