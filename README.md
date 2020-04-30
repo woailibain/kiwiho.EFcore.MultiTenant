@@ -83,8 +83,9 @@ There is more complex than preceding scenario, please reference the example ```e
 
 ### More information
 This library was come here when I am writing the blog.
-As you the title you seen, there are writed by Chinese, hope you can get the guidence on the example along with the source code here.
+As the title you seen, there are writed by Chinese, hope you can get the guidence on the example along with the source code here.
 Please feel free to reference below blogs.
+
 [利用多租户模式演化成分库分表和读写分离](https://www.cnblogs.com/woailibian/p/12391163.html)
 
 [EF多租户实例：如何快速实现和同时支持多个DbContext](https://www.cnblogs.com/woailibian/p/12464858.html)
