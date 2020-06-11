@@ -71,6 +71,28 @@
             
         },
         {
+            "name": "performance_test",
+            "type": "coreclr",
+            "request": "launch",
+            "program": "${workspaceFolder}/performance/EFcore.MultiTenant.Performance.Test/bin/Debug/netcoreapp3.1/EFcore.MultiTenant.Performance.Test.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/performance/EFcore.MultiTenant.Performance.Test",
+            "stopAtEntry": false,
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            },
+            "internalConsoleOptions": "neverOpen",
+            // "justMyCode": false,
+            // "symbolOptions": {
+            //     "searchPaths": [],
+            //     "searchMicrosoftSymbolServer": true
+            // }
+            
+        },
+        {
             "name": ".NET Core Attach",
             "type": "coreclr",
             "request": "attach",

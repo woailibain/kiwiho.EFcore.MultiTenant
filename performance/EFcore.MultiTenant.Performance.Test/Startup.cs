@@ -2,10 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EFcore.MultiTenant.Performance.Test.DbContext;
+using EFcore.MultiTenant.Performance.Test.Generator;
 using kiwiho.EFcore.MultiTenant.Core;
 using kiwiho.EFcore.MultiTenant.Core.Interface;
-using kiwiho.EFcore.MultiTenant.MixMode.DbContext;
-using kiwiho.EFcore.MultiTenant.MixMode.Generator;
+using kiwiho.EFcore.MultiTenant.Model;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -17,7 +18,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace kiwiho.EFcore.MultiTenant.MixMode
+namespace EFcore.MultiTenant.Performance.Test
 {
     public class Startup
     {
@@ -31,12 +32,24 @@ namespace kiwiho.EFcore.MultiTenant.MixMode
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMemoryCache(option=>{
+                option.SizeLimit = 1_000_000;
+            });
             services.AddScoped<IConnectionGenerator, CombindedConnectionGenerator>();
-            services.AddMySqlPerTable<StoreDbContext>(settings =>
+            services.AddMySqlPerTable<DemoContext>(settings =>
             {
-                settings.ConnectionPrefix = "mysql_";
+                settings.DbContextSetup = SetUpMySql;
             });
             services.AddControllers();
+        }
+
+        void SetUpMySql(IServiceProvider serviceProvider, string connectionString,
+            DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseMySql(connectionString, builder =>
+            {
+            });
+            optionsBuilder.UseMemoryCache(serviceProvider.GetService<IMemoryCache>());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

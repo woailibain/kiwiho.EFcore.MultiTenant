@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26124.0
+MinimumVisualStudioVersion = 15.0.26124.0
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "performance", "performance", "{22E00427-3878-4710-BB7E-7352AD24B3C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFcore.MultiTenant.Performance.Test", "performance\EFcore.MultiTenant.Performance.Test\EFcore.MultiTenant.Performance.Test.csproj", "{D5CB1E82-2DE8-4122-9A5E-BA503E3E5EBC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D5CB1E82-2DE8-4122-9A5E-BA503E3E5EBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5CB1E82-2DE8-4122-9A5E-BA503E3E5EBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5CB1E82-2DE8-4122-9A5E-BA503E3E5EBC}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D5CB1E82-2DE8-4122-9A5E-BA503E3E5EBC}.Debug|x64.Build.0 = Debug|Any CPU
+		{D5CB1E82-2DE8-4122-9A5E-BA503E3E5EBC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D5CB1E82-2DE8-4122-9A5E-BA503E3E5EBC}.Debug|x86.Build.0 = Debug|Any CPU
+		{D5CB1E82-2DE8-4122-9A5E-BA503E3E5EBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5CB1E82-2DE8-4122-9A5E-BA503E3E5EBC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5CB1E82-2DE8-4122-9A5E-BA503E3E5EBC}.Release|x64.ActiveCfg = Release|Any CPU
+		{D5CB1E82-2DE8-4122-9A5E-BA503E3E5EBC}.Release|x64.Build.0 = Release|Any CPU
+		{D5CB1E82-2DE8-4122-9A5E-BA503E3E5EBC}.Release|x86.ActiveCfg = Release|Any CPU
+		{D5CB1E82-2DE8-4122-9A5E-BA503E3E5EBC}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D5CB1E82-2DE8-4122-9A5E-BA503E3E5EBC} = {22E00427-3878-4710-BB7E-7352AD24B3C3}
+	EndGlobalSection
+EndGlobal

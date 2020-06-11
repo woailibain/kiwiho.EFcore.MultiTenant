@@ -4,6 +4,7 @@ using kiwiho.EFcore.MultiTenant.MixMode.DbContext;
 using kiwiho.EFcore.MultiTenant.MixMode.Entity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace kiwiho.EFcore.MultiTenant.MixMode.Controllers
 {

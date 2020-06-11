@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\kiwiho.EFcore.MultiTenant.MySql\kiwiho.EFcore.MultiTenant.MySql.csproj" />
+    <ProjectReference Include="..\..\src\kiwiho.EFcore.MultiTenant.Core\kiwiho.EFcore.MultiTenant.Core.csproj" />
+    <ProjectReference Include="..\..\src\kiwiho.EFcore.MultiTenant.DAL\kiwiho.EFcore.MultiTenant.DAL.csproj" />
+    <ProjectReference Include="..\..\src\kiwiho.EFcore.MultiTenant.Model\kiwiho.EFcore.MultiTenant.Model.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.1" />
+  </ItemGroup>
+
+
+</Project>

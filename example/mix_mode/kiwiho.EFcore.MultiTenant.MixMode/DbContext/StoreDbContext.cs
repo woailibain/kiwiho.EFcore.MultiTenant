@@ -3,6 +3,7 @@ using kiwiho.EFcore.MultiTenant.DAL.Impl;
 using kiwiho.EFcore.MultiTenant.MixMode.Entity;
 using kiwiho.EFcore.MultiTenant.Model;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace kiwiho.EFcore.MultiTenant.MixMode.DbContext
 {
@@ -10,10 +11,10 @@ namespace kiwiho.EFcore.MultiTenant.MixMode.DbContext
     {
         public DbSet<Product> Products => this.Set<Product>();
         
-        public StoreDbContext(DbContextOptions<StoreDbContext> options, TenantInfo tenant, IServiceProvider serviceProvider) 
+        public StoreDbContext(IMemoryCache cache,DbContextOptions<StoreDbContext> options, TenantInfo tenant, IServiceProvider serviceProvider) 
             : base(options, tenant, serviceProvider)
         {
-            
+            string ab="ab";
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
